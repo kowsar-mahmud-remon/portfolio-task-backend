@@ -27,4 +27,19 @@ app.use("/api/v1/technology/", TechnologyRoutes);
 // global error handler
 app.use(globalErrorHandler);
 
+// handle not found
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(404).json({
+    success: false,
+    message: "Not Found",
+    errorMessages: [
+      {
+        path: req?.originalUrl,
+        message: "Api Not Found",
+      },
+    ],
+  });
+  next();
+});
+
 export default app;
