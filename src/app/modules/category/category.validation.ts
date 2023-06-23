@@ -5,9 +5,6 @@ const createCategoryZodSchema = z.object({
     name: z.string({
       required_error: "PhoneNumber is Required",
     }),
-    slug: z.string({
-      required_error: "Slug is Required",
-    }),
   }),
 });
 

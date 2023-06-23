@@ -1,20 +1,24 @@
 import { NextFunction, Request, Response } from "express";
-import { CategoryService } from "./category.service";
+import { SubCategoryService } from "./subCategory.service";
+import { Category } from "../category/category.model";
 
-const createCategory = async (
+const createSubCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const categoryData = req.body;
-    const result = await CategoryService.createCategory(categoryData);
+    const parentCategoryId = req.body.parentCategoryId;
+    const categoryId = await Category.findById(parentCategoryId);
+
+    const subCategoryData = req.body;
+    const result = await SubCategoryService.createSubCategory(subCategoryData);
 
     const statusCode = 200;
     res.status(statusCode).json({
       success: true,
       statusCode: statusCode,
-      message: "Category Created Successfully",
+      message: "Sub Category Created Successfully",
       data: result,
     });
   } catch (error) {
@@ -22,44 +26,7 @@ const createCategory = async (
   }
 };
 
-const getCategory = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await CategoryService.getCategory();
-
-    const statusCode = 200;
-    res.status(statusCode).json({
-      success: true,
-      statusCode: statusCode,
-      message: "Category Get Successfully",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getSingleCategory = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const id = req.params.id;
-    const result = await CategoryService.getSingleCategory(id);
-
-    const statusCode = 200;
-    res.status(statusCode).json({
-      success: true,
-      statusCode: statusCode,
-      message: "Category Get Successfully",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateCategory = async (
+const updateSubCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -67,13 +34,13 @@ const updateCategory = async (
   try {
     const id = req.params.id;
     const updatedData = req.body;
-    const result = await CategoryService.updateCategory(id, updatedData);
+    const result = await SubCategoryService.updateSubCategory(id, updatedData);
 
     const statusCode = 200;
     res.status(statusCode).json({
       success: true,
       statusCode: statusCode,
-      message: "Category update Successfully",
+      message: "SubCategory update Successfully",
       data: result,
     });
   } catch (error) {
@@ -81,20 +48,40 @@ const updateCategory = async (
   }
 };
 
-const deleteCategory = async (
+const getSubCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await SubCategoryService.getSubCategory();
+
+    const statusCode = 200;
+    res.status(statusCode).json({
+      success: true,
+      statusCode: statusCode,
+      message: "Sub Category Get Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getSingleSubCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const id = req.params.id;
-    const result = await CategoryService.deleteCategory(id);
+    const result = await SubCategoryService.getSingleSubCategory(id);
 
     const statusCode = 200;
     res.status(statusCode).json({
       success: true,
       statusCode: statusCode,
-      message: "Category Deleted Successfully",
+      message: "Sub Category Get Successfully",
       data: result,
     });
   } catch (error) {
@@ -102,10 +89,31 @@ const deleteCategory = async (
   }
 };
 
-export const CategoryController = {
-  createCategory,
-  getCategory,
-  getSingleCategory,
-  updateCategory,
-  deleteCategory,
+const deleteSubCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+    const result = await SubCategoryService.deleteSubCategory(id);
+
+    const statusCode = 200;
+    res.status(statusCode).json({
+      success: true,
+      statusCode: statusCode,
+      message: "Sub Category Deleted Successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const SubCategoryController = {
+  createSubCategory,
+  updateSubCategory,
+  deleteSubCategory,
+  getSubCategory,
+  getSingleSubCategory,
 };
