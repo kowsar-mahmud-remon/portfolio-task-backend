@@ -11,12 +11,12 @@ const createTechnologyZodSchema = z.object({
       })
       .optional(),
     experience: z.object({
-      count: z.number({
+      count: z.any({
         required_error: "count is Required",
       }),
       unit: z.enum(["year", "month", "week", "day"]),
     }),
-    projects: z.number({
+    projects: z.any({
       required_error: "projects is Required",
     }),
     description: z.string({
