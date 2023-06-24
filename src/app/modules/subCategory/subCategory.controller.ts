@@ -8,9 +8,6 @@ const createSubCategory = async (
   next: NextFunction
 ) => {
   try {
-    const parentCategoryId = req.body.parentCategoryId;
-    const categoryId = await Category.findById(parentCategoryId);
-
     const subCategoryData = req.body;
     const result = await SubCategoryService.createSubCategory(subCategoryData);
 
